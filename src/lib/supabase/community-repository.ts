@@ -1,6 +1,5 @@
 import "server-only";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { createSupabaseReadClient } from "@/lib/supabase/server";
 import { seedData } from "@/data/seed";
 import { safeCodeEqual } from "@/lib/auth";
 import type {
@@ -51,7 +50,7 @@ function memberFromRow(row: Record<string, unknown>): Member {
 }
 
 export async function getCommunityData(): Promise<CommunityData> {
-  const client = createSupabaseReadClient();
+  const client = createSupabaseAdminClient();
   const [notices, knowledge, projects, updates, gatherings, members, settings] = await Promise.all([
     client.from("notices").select("*").order("created_at", { ascending: false }),
     client.from("knowledge_posts").select("*").order("created_at", { ascending: false }),
@@ -76,7 +75,7 @@ export async function getCommunityData(): Promise<CommunityData> {
 }
 
 export async function findMemberByPersonalCode(code: string, suffix: string) {
-  const { data, error } = await createSupabaseReadClient()
+  const { data, error } = await createSupabaseAdminClient()
     .from("members")
     .select("id,name")
     .order("created_at", { ascending: true });

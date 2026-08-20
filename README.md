@@ -32,7 +32,7 @@
 | `members` | 익명 회원 활동 프로필 |
 | `site_settings` | 대시보드와 동호회 소개 편집 문구 |
 
-모든 테이블에는 RLS가 활성화됩니다. `anon`과 `authenticated`에는 `SELECT`만 허용하며 INSERT/UPDATE/DELETE 정책은 만들지 않습니다. 쓰기 작업은 세션 역할을 확인한 서버 Route Handler가 서버 전용 service role 클라이언트로만 수행합니다.
+모든 테이블에는 RLS가 활성화됩니다. `anon`과 `authenticated`에는 `SELECT`만 허용하며 INSERT/UPDATE/DELETE 정책은 만들지 않습니다. 홈페이지의 DB 조회·쓰기 작업은 모두 세션 역할을 확인한 서버 Route Handler가 서버 전용 service role 클라이언트로 수행하며, 브라우저에서 DB를 직접 호출하지 않습니다.
 
 > `SUPABASE_SERVICE_ROLE_KEY`는 RLS를 우회할 수 있는 비밀키입니다. 브라우저 코드, GitHub, 화면 캡처 또는 `NEXT_PUBLIC_` 환경변수에 절대 넣지 마세요.
 
