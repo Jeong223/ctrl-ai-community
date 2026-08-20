@@ -50,6 +50,7 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<Supabase anon key>
 SUPABASE_SERVICE_ROLE_KEY=<Supabase service role key>
 INVITE_CODE=<회원 접속코드>
+MEMBER_PIN_SUFFIX=<개인 회원 코드의 서버 전용 접미부>
 ADMIN_ACCESS_CODE=<관리자 접속코드>
 AUTH_SECRET=<32자 이상의 충분히 긴 무작위 문자열>
 ```
@@ -72,12 +73,13 @@ npm run dev
 
 ## 3. 인증과 권한
 
-- `INVITE_CODE`로 접속: 전체 페이지 조회, 정보공유 글 작성, 프로젝트 방 생성, 프로젝트 진행사항 추가
+- `INVITE_CODE`로 접속: 개인 식별 없이 전체 페이지 조회, 정보공유 글 작성, 프로젝트 방 생성, 프로젝트 진행사항 추가
+- `<회원 이름><MEMBER_PIN_SUFFIX>`로 접속: 공용 회원 권한에 더해 본인 프로필의 관심 분야·AI 도구·참여 프로젝트·한 줄 소개 수정. `MEMBER_PIN_SUFFIX`가 없으면 `INVITE_CODE`를 접미부로 사용
 - `ADMIN_ACCESS_CODE`로 접속: 모든 관리 화면과 공용 DB 생성·수정·삭제
 - 잘못된 코드: `401` 응답 및 메인 페이지 접근 차단
 - 역할 쿠키: `AUTH_SECRET`으로 서명한 HttpOnly 쿠키, 7일 유효
 
-실제 접속코드는 README나 Git 추적 파일에 기록하지 말고 `.env.local`과 배포 환경변수에만 보관하세요. 무료 Vercel URL은 인터넷에서 접근 가능하므로 충분히 긴 임의 값을 사용하고 회원 외부에 공개하지 않는 편이 안전합니다. 이 코드 방식은 간단한 내부 접근 제어이며 강한 사용자별 인증은 아닙니다.
+실제 접속코드와 개인 코드 접미부는 README나 Git 추적 파일에 기록하지 말고 `.env.local`과 배포 환경변수에만 보관하세요. 무료 Vercel URL은 인터넷에서 접근 가능하므로 충분히 긴 임의 값을 사용하고 회원 외부에 공개하지 않는 편이 안전합니다. 모든 회원에게 같은 접미부를 사용하면 이름을 아는 회원이 다른 사람의 코드를 추측할 수 있으므로, 이 방식은 간단한 내부 접근 제어이며 강한 사용자별 인증은 아닙니다.
 
 ## 4. 검증 명령
 
@@ -90,7 +92,7 @@ npm audit
 
 Supabase 연결 후에는 다음도 확인합니다.
 
-1. 회원 코드와 관리자 코드의 역할이 서로 다른지 확인합니다.
+1. 공용 회원 코드, 개인 회원 코드와 관리자 코드의 역할이 서로 다른지 확인합니다.
 2. 관리자 창에서 테스트 공지를 작성합니다.
 3. 다른 브라우저 또는 시크릿 창에 회원 코드로 접속해 새 공지가 보이는지 확인합니다.
 4. 프로젝트 방과 진행사항, 모임 일정, 회원정보를 각각 저장하고 새로고침 후 유지되는지 확인합니다.
@@ -133,6 +135,7 @@ push 전에 다음 항목이 Git에 포함되지 않았는지 확인합니다.
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | 공개 가능 | Supabase anon key |
 | `SUPABASE_SERVICE_ROLE_KEY` | 서버 비밀 | Supabase service role key |
 | `INVITE_CODE` | 서버 비밀 | `<회원 접속코드>` |
+| `MEMBER_PIN_SUFFIX` | 서버 비밀·선택 | `<개인 회원 코드의 서버 전용 접미부>`; 없으면 `INVITE_CODE` 사용 |
 | `ADMIN_ACCESS_CODE` | 서버 비밀 | `<관리자 접속코드>` |
 | `AUTH_SECRET` | 서버 비밀 | 32자 이상의 무작위 문자열 |
 

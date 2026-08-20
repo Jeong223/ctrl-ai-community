@@ -2,6 +2,7 @@ import "server-only";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseReadClient } from "@/lib/supabase/server";
 import { seedData } from "@/data/seed";
+import { safeCodeEqual } from "@/lib/auth";
 import type {
   AboutSettings,
   CommunityData,
@@ -74,6 +75,16 @@ export async function getCommunityData(): Promise<CommunityData> {
   };
 }
 
+export async function findMemberByPersonalCode(code: string, suffix: string) {
+  const { data, error } = await createSupabaseReadClient()
+    .from("members")
+    .select("id,name")
+    .order("created_at", { ascending: true });
+  ensureNoError(error);
+  const member = (data ?? []).find((row) => safeCodeEqual(code, `${row.name}${suffix}`));
+  return member ? { id: String(member.id), name: String(member.name) } : null;
+}
+
 function insertPayload(resource: ResourceName, item: Record<string, unknown>) {
   if (resource === "notices") return { title: item.title, content: item.content, category: item.category, pinned: Boolean(item.pinned), author: item.author };
   if (resource === "knowledge") return { title: item.title, content: item.content, tags: item.tags ?? [], links: item.links ?? [], author: item.author };
@@ -101,6 +112,23 @@ export async function saveResource(resource: ResourceName, item: Record<string, 
   const { data, error } = await query.select("*").single();
   ensureNoError(error);
   return mapSaved(resource, data as Record<string, unknown>);
+}
+
+export async function saveMemberProfile(id: string, item: Record<string, unknown>) {
+  const payload = {
+    interest: item.interest || null,
+    ai_tools: Array.isArray(item.aiTools) ? item.aiTools : [],
+    projects: Array.isArray(item.projects) ? item.projects : [],
+    bio: item.bio || null,
+  };
+  const { data, error } = await createSupabaseAdminClient()
+    .from("members")
+    .update(payload)
+    .eq("id", id)
+    .select("*")
+    .single();
+  ensureNoError(error);
+  return memberFromRow(data as Record<string, unknown>);
 }
 
 export async function removeResource(resource: ResourceName, id: string) {

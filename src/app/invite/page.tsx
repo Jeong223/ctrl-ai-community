@@ -41,7 +41,7 @@ function InviteForm() {
     <div className="invite-form-card">
       <div className="mobile-logo"><Logo /></div>
       <h2>워크스페이스 입장</h2>
-      <p>안내받은 회원 또는 관리자 접속코드를 입력해 주세요.</p>
+      <p>안내받은 개인 회원 코드 또는 관리자 접속코드를 입력해 주세요.</p>
       <form onSubmit={submit}>
         <label className="invite-input-wrap">
           <span className="sr-only">초대번호</span>
@@ -50,7 +50,7 @@ function InviteForm() {
             type="password"
             value={code}
             onChange={(event) => setCode(event.target.value)}
-            placeholder="회원 또는 관리자 접속코드"
+            placeholder="개인 회원 또는 관리자 접속코드"
             autoComplete="one-time-code"
             required
             autoFocus
@@ -63,7 +63,7 @@ function InviteForm() {
       </form>
       <div className="invite-security">
         <LockKeyhole size={17} aria-hidden="true" />
-        <span>회원은 콘텐츠를 조회하고, 관리자는 전체 편집 기능을 사용할 수 있습니다. 인증은 7일간 유지됩니다.</span>
+        <span>회원은 콘텐츠를 조회·작성하고 자신의 프로필을 수정할 수 있습니다. 관리자는 전체 편집이 가능하며 인증은 7일간 유지됩니다.</span>
       </div>
     </div>
   );

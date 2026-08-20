@@ -53,7 +53,7 @@ async function requestData<T>(url: string, init?: RequestInit): Promise<T> {
 }
 
 export function CommunityProvider({ children }: { children: React.ReactNode }) {
-  const { isAdmin, role } = useSession();
+  const { isAdmin, memberId, role } = useSession();
   const [data, setData] = useState<CommunityData>(seedData);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -175,10 +175,11 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
   }, [perform]);
 
   const saveMember = useCallback(async (member: Member) => {
-    const result = await perform("회원정보를 저장했습니다.", () => requestData<Member>(member.id ? `/api/members/${member.id}` : "/api/members", { method: member.id ? "PUT" : "POST", body: JSON.stringify(member) }));
+    const canEditOwnProfile = role === "member" && memberId === member.id;
+    const result = await perform("회원정보를 저장했습니다.", () => requestData<Member>(member.id ? `/api/members/${member.id}` : "/api/members", { method: member.id ? "PUT" : "POST", body: JSON.stringify(member) }), canEditOwnProfile);
     if (result.ok && result.value) setData((current) => ({ ...current, members: upsert(current.members, result.value!) }));
     return result.ok;
-  }, [perform]);
+  }, [memberId, perform, role]);
 
   const removeMember = useCallback(async (id: string) => {
     const result = await perform("회원정보를 삭제했습니다.", () => requestData<void>(`/api/members/${id}`, { method: "DELETE" }));

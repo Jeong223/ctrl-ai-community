@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { apiError, requireAdmin } from "@/lib/api/admin";
-import { removeResource, saveResource, type ResourceName } from "@/lib/supabase/community-repository";
+import { apiError, getRequestSession, requireAdmin, requireMemberOwner } from "@/lib/api/admin";
+import { removeResource, saveMemberProfile, saveResource, type ResourceName } from "@/lib/supabase/community-repository";
 
 const resources = new Set<ResourceName>(["notices", "knowledge", "projects", "gatherings", "members"]);
 
@@ -13,11 +13,18 @@ async function getParams(context: ResourceContext) {
 }
 
 export async function PUT(request: NextRequest, context: ResourceContext) {
-  const denied = await requireAdmin(request);
-  if (denied) return denied;
   try {
     const { resource, id } = await getParams(context);
-    return NextResponse.json({ data: await saveResource(resource, await request.json() as Record<string, unknown>, id) });
+    const denied = resource === "members"
+      ? await requireMemberOwner(request, id)
+      : await requireAdmin(request);
+    if (denied) return denied;
+    const body = await request.json() as Record<string, unknown>;
+    const session = resource === "members" ? await getRequestSession(request) : null;
+    const data = resource === "members" && session?.role === "member"
+      ? await saveMemberProfile(id, body)
+      : await saveResource(resource, body, id);
+    return NextResponse.json({ data });
   } catch (error) {
     return apiError(error);
   }
