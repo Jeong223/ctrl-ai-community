@@ -1,0 +1,265 @@
+import type { CommunityData } from "@/lib/types";
+
+export const seedData: CommunityData = {
+  dashboard: {
+    kicker: "Ctrl + AI Workspace",
+    titleLine1: "함께 배우고, 실험하고,",
+    titleHighlight: "새로운 가능성을 만듭니다.",
+    description:
+      "정보는 모으고, 아이디어는 나누고, 프로젝트는 끝까지. Ctrl + AI의 모든 활동을 한곳에서 이어가세요.",
+    monthlyFocus: "미니 프로젝트 시작하기",
+  },
+  about: {
+    pageEyebrow: "About us",
+    pageTitle: "동호회 소개",
+    pageDescription: "AI에 대한 호기심을 동료와 나누고, 배움이 실제 결과물로 이어지는 공간입니다.",
+    heroEyebrow: "Ctrl + AI Community",
+    heroTitleLine1: "호기심을 연결하면",
+    heroTitleLine2: "새로운 가능성이 됩니다.",
+    heroDescription: "Ctrl + AI는 다양한 직무가 모여 AI를 배우고, 활용 경험을 나누고, 함께 만들며 성장하는 내부 커뮤니티입니다.",
+    values: [
+      { id: "capability", title: "AI 활용 역량", description: "도구를 직접 써보고 일과 일상에 적용하는 힘을 기릅니다." },
+      { id: "knowledge", title: "지식의 연결", description: "흘러가는 정보를 다시 찾을 수 있는 경험과 자료로 남깁니다." },
+      { id: "action", title: "작은 실행", description: "완벽한 계획보다 작게 만들고 빠르게 배우는 프로젝트를 지향합니다." },
+      { id: "growth", title: "함께 성장", description: "직무와 숙련도에 관계없이 서로의 관점과 시도를 존중합니다." },
+    ],
+    directionEyebrow: "How we work",
+    directionTitleLine1: "배움이 멈추지 않는",
+    directionTitleLine2: "운영 방식",
+    directionDescription: "정해진 답보다 함께 탐색하는 과정을 소중히 여깁니다. 부담 없이 참여하고, 자신의 속도로 기여할 수 있습니다.",
+    directions: [
+      { id: "monthly", title: "월 1회 정기모임", description: "새로운 AI 활용 사례와 프로젝트 진행상황을 나눕니다." },
+      { id: "learning", title: "AI 교육과 실습", description: "필요한 주제를 함께 정하고 직접 따라 해보는 시간을 엽니다." },
+      { id: "projects", title: "개인·팀 프로젝트", description: "업무뿐 아니라 취미와 개인 관심사를 자유롭게 탐구합니다." },
+      { id: "sharing", title: "활용 사례 공유", description: "성공뿐 아니라 시행착오도 다음 시도를 위한 지식으로 남깁니다." },
+    ],
+    longTermTitle: "장기 목표 · 함께 만든 결과물을 Ctrl + AI의 이름으로",
+    longTermDescription: "S/W, H/W, 디자인, 인증, 품질 등 다양한 직무가 경계를 넘어 협업하고, 배움이 실제 결과물로 이어지는 경험을 만듭니다.",
+    footerCards: [
+      { id: "participation", title: "누구나 참여", description: "AI 경험이 많지 않아도 괜찮습니다. 배우고 싶은 마음이면 충분합니다." },
+      { id: "recording", title: "기록하고 공유", description: "좋은 정보와 프로젝트의 맥락을 구성원 모두가 다시 찾을 수 있게 남깁니다." },
+    ],
+  },
+  notices: [
+    {
+      id: "notice-project-teams",
+      title: "AI 미니 프로젝트 팀 구성 및 주제 선정 안내",
+      content:
+        "10명의 회원을 3명·3명·4명으로 나누어 미니 프로젝트를 시작합니다. 각 팀은 관심 주제를 정하고 프로젝트 방에 목표와 다음 할 일을 기록해 주세요.",
+      category: "프로젝트",
+      pinned: true,
+      createdAt: "2026-08-12T09:00:00+09:00",
+      author: "운영진",
+    },
+    {
+      id: "notice-third-meeting",
+      title: "3차 정기모임 안내",
+      content:
+        "프로젝트 주제 확정과 팀별 킥오프를 진행합니다. 각자 관심 있는 AI 활용 아이디어를 한 가지씩 준비해 주세요.",
+      category: "정기모임",
+      pinned: true,
+      createdAt: "2026-08-05T14:00:00+09:00",
+      author: "운영진",
+    },
+    {
+      id: "notice-summit-2026",
+      title: "AI Summit Seoul & Expo 2026 참가 정보",
+      content:
+        "AI 관련 최신 기술과 산업 사례를 살펴볼 수 있는 행사를 공유합니다. 참가를 희망하는 회원은 다음 정기모임에서 일정을 함께 조율해 주세요.",
+      category: "행사",
+      createdAt: "2026-07-28T11:30:00+09:00",
+      author: "행사 담당",
+    },
+    {
+      id: "notice-support-policy",
+      title: "AI 지원비 운영 방식 의견 수렴",
+      content:
+        "교육, 구독형 AI 도구, 행사 참가 등 지원비 활용 기준을 함께 정하려고 합니다. 활용 목적과 기대 효과를 정리해 운영진에게 공유해 주세요.",
+      category: "지원비",
+      createdAt: "2026-07-17T16:20:00+09:00",
+      author: "운영진",
+    },
+    {
+      id: "notice-second-meeting",
+      title: "2차 정기모임 공지",
+      content:
+        "AI 도구 활용 사례를 나누고 정보공유 게시판 운영 방향을 논의합니다. 간단한 활용 사례를 준비해 주세요.",
+      category: "정기모임",
+      createdAt: "2026-06-18T10:00:00+09:00",
+      author: "운영진",
+    },
+    {
+      id: "notice-june-meeting",
+      title: "6월 정기모임 안내",
+      content:
+        "Ctrl + AI의 첫 정기모임입니다. 동호회 운영 방향과 함께 배우고 싶은 주제를 편하게 이야기합니다.",
+      category: "정기모임",
+      createdAt: "2026-06-03T09:30:00+09:00",
+      author: "운영진",
+    },
+    {
+      id: "notice-new-members",
+      title: "새로운 회원을 환영합니다",
+      content:
+        "서로 다른 직무의 신규 회원이 함께하게 되었습니다. 회원 페이지의 관심 분야를 살펴보고 자유롭게 인사해 주세요.",
+      category: "기타",
+      createdAt: "2026-07-10T13:00:00+09:00",
+      author: "운영진",
+    },
+  ],
+  knowledge: [
+    {
+      id: "knowledge-codex-workflow",
+      title: "Codex로 반복 업무를 자동화할 때의 시작점",
+      content:
+        "작은 반복 작업을 선정하고, 입력과 기대 결과를 먼저 명확히 정의해 보세요. 원본 보존과 결과 검증 기준까지 프롬프트에 포함하면 안정적인 협업이 가능합니다.",
+      tags: ["Codex", "자동화", "실습"],
+      links: ["https://developers.openai.com/codex"],
+      createdAt: "2026-08-10T14:30:00+09:00",
+      author: "AI 학습팀",
+    },
+    {
+      id: "knowledge-board-guide",
+      title: "정보공유 게시판을 잘 활용하는 방법",
+      content:
+        "좋은 자료는 핵심 요약, 추천 대상, 직접 사용해 본 소감, 원문 링크를 함께 남겨 주세요. 나중에 다시 찾기 쉽도록 관련 태그도 추가합니다.",
+      tags: ["운영", "가이드"],
+      createdAt: "2026-08-02T10:10:00+09:00",
+      author: "운영진",
+    },
+    {
+      id: "knowledge-prompt-notes",
+      title: "업무에 바로 쓰는 프롬프트 기록법",
+      content:
+        "프롬프트만 저장하기보다 어떤 상황에서 사용했고 무엇을 수정했는지 함께 기록하면 팀의 재사용성이 높아집니다.",
+      tags: ["프롬프트", "생산성"],
+      createdAt: "2026-07-24T15:40:00+09:00",
+      author: "프롬프트 연구팀",
+    },
+    {
+      id: "knowledge-model-updates",
+      title: "AI 모델 업데이트를 비교할 때 확인할 항목",
+      content:
+        "모델 이름과 공개일뿐 아니라 비용, 컨텍스트 길이, 도구 사용, 보안 정책, 실제 업무 테스트 결과를 같은 기준으로 비교해 보세요.",
+      tags: ["AI 모델", "비교"],
+      createdAt: "2026-07-15T09:20:00+09:00",
+      author: "리서치팀",
+    },
+  ],
+  projects: [
+    {
+      id: "smart-meeting-note",
+      name: "AI 회의노트 메이커",
+      description: "회의 메모를 핵심 결정과 할 일 중심으로 정리하는 도구를 만듭니다.",
+      members: ["회원 A", "회원 B", "회원 C"],
+      status: "진행중",
+      goal: "회의 직후 3분 안에 공유 가능한 회의록 초안을 생성합니다.",
+      nextAction: "샘플 회의록 5건으로 요약 형식 비교 테스트",
+      updates: [
+        {
+          id: "update-note-2",
+          title: "출력 템플릿 2종 비교",
+          content: "결정사항 중심 형식이 읽기 쉽다는 의견이 많아 기본 템플릿으로 채택했습니다.",
+          createdAt: "2026-08-16T17:20:00+09:00",
+        },
+        {
+          id: "update-note-1",
+          title: "첫 번째 킥오프",
+          content: "필수 출력 항목을 요약, 결정사항, 담당자별 할 일로 정했습니다.",
+          createdAt: "2026-08-09T16:00:00+09:00",
+        },
+      ],
+      resources: [{ label: "프롬프트 설계 참고", url: "https://platform.openai.com/docs/guides/prompt-engineering" }],
+      checklist: [
+        { id: "check-note-1", label: "샘플 데이터 비식별화", done: true },
+        { id: "check-note-2", label: "요약 형식 비교", done: false },
+        { id: "check-note-3", label: "사용자 피드백 수집", done: false },
+      ],
+      meetingNotes: "다음 모임에서는 실제 사용 흐름과 결과 공유 방식을 함께 검토합니다.",
+    },
+    {
+      id: "ai-hobby-curator",
+      name: "취미 큐레이터",
+      description: "관심사와 여유 시간을 바탕으로 주말 활동을 추천하는 개인 프로젝트입니다.",
+      members: ["회원 D", "회원 E", "회원 F"],
+      status: "기획",
+      goal: "질문 5개 이내로 부담 없이 취미 후보를 추천합니다.",
+      nextAction: "추천 카테고리와 질문 흐름 확정",
+      updates: [
+        {
+          id: "update-hobby-1",
+          title: "아이디어 스케치 완료",
+          content: "실내·야외, 혼자·함께, 예산, 시간 기준으로 추천 질문을 구성했습니다.",
+          createdAt: "2026-08-14T12:00:00+09:00",
+        },
+      ],
+      resources: [],
+      checklist: [
+        { id: "check-hobby-1", label: "사용자 질문 설계", done: true },
+        { id: "check-hobby-2", label: "추천 데이터 30개 정리", done: false },
+      ],
+      meetingNotes: "개인정보를 수집하지 않는 범위에서 추천 품질을 높이는 방법을 검토합니다.",
+    },
+    {
+      id: "visual-quality-helper",
+      name: "비주얼 품질 도우미",
+      description: "이미지 기반 체크 항목을 안내하는 학습용 프로토타입을 제작합니다.",
+      members: ["회원 G", "회원 H", "회원 I", "회원 J"],
+      status: "아이디어",
+      goal: "비전문가도 품질 점검 순서를 쉽게 따라갈 수 있는 화면을 만듭니다.",
+      nextAction: "적용할 공개 이미지 데이터와 점검 시나리오 조사",
+      updates: [
+        {
+          id: "update-visual-1",
+          title: "프로젝트 주제 선정",
+          content: "먼저 공개 데이터로 학습 가능한 단순 점검 시나리오부터 시작하기로 했습니다.",
+          createdAt: "2026-08-12T18:30:00+09:00",
+        },
+      ],
+      resources: [],
+      checklist: [{ id: "check-visual-1", label: "공개 데이터 조사", done: false }],
+      meetingNotes: "업무 데이터나 민감한 이미지는 사용하지 않습니다.",
+    },
+  ],
+  gatherings: [
+    {
+      id: "gathering-september",
+      title: "9월 정기모임 · 프로젝트 중간 공유",
+      date: "2026-09-10",
+      time: "18:30",
+      place: "사내 협업 라운지",
+      memo: "팀별 7분 발표와 자유 피드백을 진행합니다.",
+      attendees: ["회원 A", "회원 B", "회원 C", "회원 D", "회원 E", "회원 F"],
+    },
+    {
+      id: "gathering-august-lunch",
+      title: "8월 AI 토크 점심모임",
+      date: "2026-08-27",
+      time: "12:00",
+      place: "회사 인근 식당",
+      memo: "최근 써 본 AI 기능을 가볍게 나눕니다.",
+      attendees: ["회원 G", "회원 H", "회원 I", "회원 J"],
+    },
+    {
+      id: "gathering-july-dinner",
+      title: "7월 정기모임 후 저녁식사",
+      date: "2026-07-23",
+      time: "19:00",
+      place: "회사 인근",
+      memo: "정기모임을 마치고 자유롭게 교류한 기록입니다.",
+      attendees: ["회원 A", "회원 D", "회원 G", "회원 F", "회원 I"],
+    },
+  ],
+  members: [
+    { id: "member-1", name: "회원 A", role: "Software", interest: "AI 자동화", aiTools: ["Codex", "ChatGPT"], projects: ["AI 회의노트 메이커"], bio: "작은 반복을 줄이는 도구를 좋아합니다.", initials: "A", color: "blue" },
+    { id: "member-2", name: "회원 B", role: "Design", interest: "생성형 디자인", aiTools: ["ChatGPT", "Figma AI"], projects: ["AI 회의노트 메이커"], bio: "복잡한 내용을 쉬운 화면으로 바꿉니다.", initials: "B", color: "violet" },
+    { id: "member-3", name: "회원 C", role: "Quality", interest: "문서 분석", aiTools: ["Claude", "Gemini"], projects: ["AI 회의노트 메이커"], bio: "검증 가능한 AI 활용법을 탐구합니다.", initials: "C", color: "cyan" },
+    { id: "member-4", name: "회원 D", role: "Marketing", interest: "콘텐츠 기획", aiTools: ["ChatGPT", "Canva"], projects: ["취미 큐레이터"], bio: "좋은 아이디어를 사람들과 연결합니다.", initials: "D", color: "pink" },
+    { id: "member-5", name: "회원 E", role: "CAD", interest: "3D·비주얼 AI", aiTools: ["Gemini", "Midjourney"], projects: ["취미 큐레이터"], bio: "새로운 표현 도구를 직접 시험합니다.", initials: "E", color: "orange" },
+    { id: "member-6", name: "회원 F", role: "Hardware", interest: "엣지 AI", aiTools: ["Claude", "Perplexity"], projects: ["취미 큐레이터"], bio: "현실의 문제와 AI를 연결하고 싶습니다.", initials: "F", color: "emerald" },
+    { id: "member-7", name: "회원 G", role: "Certification", interest: "AI 리서치", aiTools: ["Perplexity", "ChatGPT"], projects: ["비주얼 품질 도우미"], bio: "신뢰할 수 있는 근거를 꼼꼼히 찾습니다.", initials: "G", color: "indigo" },
+    { id: "member-8", name: "회원 H", role: "Software", interest: "멀티모달 AI", aiTools: ["Codex", "Gemini"], projects: ["비주얼 품질 도우미"], bio: "빠르게 만들고 실제로 검증합니다.", initials: "H", color: "sky" },
+    { id: "member-9", name: "회원 I", role: "Quality", interest: "비전 AI", aiTools: ["ChatGPT", "Claude"], projects: ["비주얼 품질 도우미"], bio: "사용하기 쉬운 점검 방식을 고민합니다.", initials: "I", color: "teal" },
+    { id: "member-10", name: "회원 J", role: "Design", interest: "AI 프로토타이핑", aiTools: ["Figma AI", "Codex"], projects: ["비주얼 품질 도우미"], bio: "아이디어를 눈에 보이는 경험으로 만듭니다.", initials: "J", color: "amber" },
+  ],
+};
