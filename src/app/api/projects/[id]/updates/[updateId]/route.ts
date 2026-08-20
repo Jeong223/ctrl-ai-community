@@ -9,7 +9,12 @@ export async function PUT(request: NextRequest, context: UpdateContext) {
   if (denied) return denied;
   try {
     const { id, updateId } = await context.params;
-    return NextResponse.json({ data: await saveProjectUpdate(id, await request.json() as Record<string, unknown>, updateId) });
+    const body = await request.json() as Record<string, unknown>;
+    if (typeof body.author !== "string" || !body.author.trim()) {
+      return NextResponse.json({ message: "작성자를 입력해 주세요." }, { status: 400 });
+    }
+    body.author = body.author.trim();
+    return NextResponse.json({ data: await saveProjectUpdate(id, body, updateId) });
   } catch (error) {
     return apiError(error);
   }

@@ -25,6 +25,8 @@ export type KnowledgePost = {
   links?: string[];
   createdAt: string;
   author: string;
+  writerTag?: string;
+  comments: CommunityComment[];
 };
 
 export type ProjectStatus = "아이디어" | "기획" | "진행중" | "완료" | "보류";
@@ -34,6 +36,16 @@ export type ProjectUpdate = {
   title: string;
   content: string;
   createdAt: string;
+  author: string;
+  writerTag?: string;
+};
+
+export type CommunityComment = {
+  id: string;
+  author: string;
+  content: string;
+  createdAt: string;
+  writerTag?: string;
 };
 
 export type ChecklistItem = {
@@ -46,11 +58,14 @@ export type ProjectRoom = {
   id: string;
   name: string;
   description: string;
+  author: string;
+  writerTag?: string;
   members: string[];
   status: ProjectStatus;
   goal: string;
   nextAction: string;
   updates: ProjectUpdate[];
+  comments: CommunityComment[];
   resources: { label: string; url: string }[];
   checklist: ChecklistItem[];
   meetingNotes: string;

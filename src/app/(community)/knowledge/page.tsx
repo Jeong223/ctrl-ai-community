@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, Edit3, ExternalLink, Plus, Search, Trash2 } from "lucide-react";
+import { BookOpen, Edit3, ExternalLink, MessageCircle, Plus, Search, Trash2 } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
 import { useCommunity } from "@/components/providers/community-provider";
 import { useSession } from "@/components/providers/session-provider";
@@ -16,7 +16,8 @@ const emptyPost = (): KnowledgePost => ({
   tags: [],
   links: [],
   createdAt: new Date().toISOString(),
-  author: "Ctrl + AI 회원",
+  author: "",
+  comments: [],
 });
 
 export default function KnowledgePage() {
@@ -63,7 +64,7 @@ export default function KnowledgePage() {
               <Link href={`/knowledge/${post.id}`}><h2>{post.title}</h2></Link>
               <p>{post.content}</p>
               <div className="tag-row">{post.tags.map((tag) => <Badge key={tag} tone="violet">#{tag}</Badge>)}</div>
-              <footer className="knowledge-card-footer"><span>{post.author}</span><span>·</span><time>{formatDate(post.createdAt)}</time>{isAdmin && <span className="board-actions"><button className="button button-secondary button-small" onClick={() => openEdit(post)} aria-label={`${post.title} 수정`}><Edit3 size={12} /></button><button className="button button-danger button-small" onClick={() => remove(post)} aria-label={`${post.title} 삭제`}><Trash2 size={12} /></button></span>}</footer>
+              <footer className="knowledge-card-footer"><span>{post.author}</span>{post.writerTag && <span className="writer-tag">접속표시 #{post.writerTag}</span>}<span>·</span><time>{formatDate(post.createdAt)}</time><span className="comment-count"><MessageCircle size={12} /> {post.comments?.length ?? 0}</span>{isAdmin && <span className="board-actions"><button className="button button-secondary button-small" onClick={() => openEdit(post)} aria-label={`${post.title} 수정`}><Edit3 size={12} /></button><button className="button button-danger button-small" onClick={() => remove(post)} aria-label={`${post.title} 삭제`}><Trash2 size={12} /></button></span>}</footer>
             </article>
           ))}
         </section>
@@ -73,7 +74,7 @@ export default function KnowledgePage() {
         <form onSubmit={submit}>
           <div className="form-grid">
             <Field label="제목" className="field-full"><input required value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} placeholder="무엇을 공유하나요?" /></Field>
-            <Field label="작성자"><input required value={draft.author} onChange={(event) => setDraft({ ...draft, author: event.target.value })} /></Field>
+            <Field label="작성자" hint="게시판에 표시할 이름을 직접 입력해 주세요."><input required value={draft.author} onChange={(event) => setDraft({ ...draft, author: event.target.value })} placeholder="이름 또는 별칭" /></Field>
             <Field label="태그" hint="쉼표로 구분해 주세요."><input required value={draft.tags.join(", ")} onChange={(event) => setDraft({ ...draft, tags: event.target.value.split(",").map((tag) => tag.trim()) })} placeholder="Codex, 자동화" /></Field>
             <Field label="내용" className="field-full"><textarea required value={draft.content} onChange={(event) => setDraft({ ...draft, content: event.target.value })} placeholder="추천 이유, 사용 경험, 핵심 내용을 정리해 주세요." /></Field>
             <Field label="참고 링크" hint="여러 개라면 쉼표로 구분해 주세요." className="field-full"><input type="text" value={draft.links?.join(", ") ?? ""} onChange={(event) => setDraft({ ...draft, links: event.target.value.split(",").map((link) => link.trim()) })} placeholder="https://..." /></Field>

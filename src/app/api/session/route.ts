@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { AUTH_COOKIE, getSession } from "@/lib/auth";
+import { AUTH_COOKIE, getSessionRole } from "@/lib/auth";
 
 export async function GET(request: NextRequest) {
-  const session = await getSession(
+  const role = await getSessionRole(
     request.cookies.get(AUTH_COOKIE)?.value,
     process.env.AUTH_SECRET,
   );
-  if (!session) {
+  if (!role) {
     return NextResponse.json({ message: "인증이 필요합니다." }, { status: 401 });
   }
   return NextResponse.json({
-    role: session.role,
-    memberId: session.memberId,
-    canEdit: session.role === "admin" || Boolean(session.memberId),
+    role,
+    canEdit: role === "admin",
   });
 }

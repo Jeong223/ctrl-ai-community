@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Edit3, Plus, Search, Trash2, Workflow } from "lucide-react";
+import { ArrowRight, Edit3, MessageCircle, Plus, Search, Trash2, Workflow } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
 import { useCommunity } from "@/components/providers/community-provider";
 import { useSession } from "@/components/providers/session-provider";
@@ -11,7 +11,7 @@ import type { ProjectRoom, ProjectStatus } from "@/lib/types";
 const statuses: Array<ProjectStatus | "전체"> = ["전체", "아이디어", "기획", "진행중", "완료", "보류"];
 const statusTone: Record<ProjectStatus, "blue" | "violet" | "green" | "orange" | "gray"> = { 아이디어: "orange", 기획: "violet", 진행중: "blue", 완료: "green", 보류: "gray" };
 const progress: Record<ProjectStatus, number> = { 아이디어: 15, 기획: 35, 진행중: 65, 완료: 100, 보류: 25 };
-const emptyProject = (): ProjectRoom => ({ id: "", name: "", description: "", members: [], status: "아이디어", goal: "", nextAction: "", updates: [], resources: [], checklist: [], meetingNotes: "", resultUrl: "" });
+const emptyProject = (): ProjectRoom => ({ id: "", name: "", description: "", author: "", members: [], status: "아이디어", goal: "", nextAction: "", updates: [], comments: [], resources: [], checklist: [], meetingNotes: "", resultUrl: "" });
 
 export default function ProjectsPage() {
   const { data, saveProject, removeProject } = useCommunity();
@@ -53,11 +53,12 @@ export default function ProjectsPage() {
               <div className="project-card-top"><span className="project-symbol"><Workflow size={19} /></span><Badge tone={statusTone[project.status]}>{project.status}</Badge></div>
               <Link href={`/projects/${project.id}`}><h2>{project.name}</h2></Link>
               <p>{project.description}</p>
+              <div className="project-author"><span>작성자 {project.author}</span>{project.writerTag && <span className="writer-tag">접속표시 #{project.writerTag}</span>}<span className="comment-count"><MessageCircle size={12} /> {project.comments?.length ?? 0}</span></div>
               <div className="project-next"><small>NEXT ACTION</small><strong>{project.nextAction}</strong></div>
               <div className="project-card-footer">
                 <div className="avatar-stack" aria-label={`팀원 ${project.members.join(", ")}`}>{project.members.map((member) => <span className="mini-avatar" key={member}>{member.slice(-1)}</span>)}</div>
                 <div className="project-actions">
-                  {isAdmin && <button className="button button-secondary button-small" onClick={() => openEdit(project)} aria-label={`${project.name} 수정`}><Edit3 size={12} /></button>}
+                  {canContribute && <button className="button button-secondary button-small" onClick={() => openEdit(project)} aria-label={`${project.name} 수정`}><Edit3 size={12} /></button>}
                   {isAdmin && <button className="button button-danger button-small" onClick={() => remove(project)} aria-label={`${project.name} 삭제`}><Trash2 size={12} /></button>}
                   <Link className="button button-secondary button-small" href={`/projects/${project.id}`} aria-label={`${project.name} 열기`}><ArrowRight size={13} /></Link>
                 </div>
@@ -72,6 +73,7 @@ export default function ProjectsPage() {
         <form onSubmit={submit}>
           <div className="form-grid">
             <Field label="프로젝트명" className="field-full"><input required value={draft.name} onChange={(event) => setDraft({ ...draft, name: event.target.value })} placeholder="프로젝트 이름" /></Field>
+            <Field label="작성자" hint="프로젝트에 표시할 이름을 입력해 주세요."><input required value={draft.author} onChange={(event) => setDraft({ ...draft, author: event.target.value })} placeholder="이름 또는 별칭" /></Field>
             <Field label="진행 상태"><select value={draft.status} onChange={(event) => setDraft({ ...draft, status: event.target.value as ProjectStatus })}>{statuses.filter((item) => item !== "전체").map((item) => <option key={item}>{item}</option>)}</select></Field>
             <Field label="팀원" hint="쉼표로 구분해 주세요."><input required value={draft.members.join(", ")} onChange={(event) => setDraft({ ...draft, members: event.target.value.split(",").map((name) => name.trim()) })} placeholder="이름1, 이름2, 이름3" /></Field>
             <Field label="프로젝트 설명" className="field-full"><textarea required value={draft.description} onChange={(event) => setDraft({ ...draft, description: event.target.value })} placeholder="어떤 문제를 해결하나요?" /></Field>

@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { seedData } from "@/data/seed";
 import { useSession } from "@/components/providers/session-provider";
-import type { AboutSettings, CommunityData, DashboardSettings, Gathering, KnowledgePost, Member, Notice, ProjectRoom, ProjectUpdate } from "@/lib/types";
+import type { AboutSettings, CommunityComment, CommunityData, DashboardSettings, Gathering, KnowledgePost, Member, Notice, ProjectRoom, ProjectUpdate } from "@/lib/types";
 
 type Feedback = { tone: "success" | "error"; text: string } | null;
 type AsyncResult = Promise<boolean>;
@@ -24,11 +24,15 @@ type CommunityContextValue = {
   removeNotice: (id: string) => AsyncResult;
   saveKnowledge: (post: KnowledgePost) => AsyncResult;
   removeKnowledge: (id: string) => AsyncResult;
+  addKnowledgeComment: (postId: string, comment: CommunityComment) => AsyncResult;
+  removeKnowledgeComment: (postId: string, commentId: string) => AsyncResult;
   saveProject: (project: ProjectRoom) => AsyncResult;
   removeProject: (id: string) => AsyncResult;
   addProjectUpdate: (projectId: string, update: ProjectUpdate) => AsyncResult;
   saveProjectUpdate: (projectId: string, update: ProjectUpdate) => AsyncResult;
   removeProjectUpdate: (projectId: string, updateId: string) => AsyncResult;
+  addProjectComment: (projectId: string, comment: CommunityComment) => AsyncResult;
+  removeProjectComment: (projectId: string, commentId: string) => AsyncResult;
   saveGathering: (gathering: Gathering) => AsyncResult;
   removeGathering: (id: string) => AsyncResult;
 };
@@ -53,7 +57,7 @@ async function requestData<T>(url: string, init?: RequestInit): Promise<T> {
 }
 
 export function CommunityProvider({ children }: { children: React.ReactNode }) {
-  const { isAdmin, memberId, role } = useSession();
+  const { isAdmin, role } = useSession();
   const [data, setData] = useState<CommunityData>(seedData);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -119,7 +123,19 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
 
   const saveKnowledge = useCallback(async (post: KnowledgePost) => {
     const result = await perform("정보공유 글을 저장했습니다.", () => requestData<KnowledgePost>(post.id ? `/api/knowledge/${post.id}` : "/api/knowledge", { method: post.id ? "PUT" : "POST", body: JSON.stringify(post) }), !post.id);
-    if (result.ok && result.value) setData((current) => ({ ...current, knowledge: upsert(current.knowledge, result.value!) }));
+    if (result.ok && result.value) setData((current) => ({ ...current, knowledge: upsert(current.knowledge, { ...result.value!, comments: post.comments }) }));
+    return result.ok;
+  }, [perform]);
+
+  const addKnowledgeComment = useCallback(async (postId: string, comment: CommunityComment) => {
+    const result = await perform("댓글을 등록했습니다.", () => requestData<CommunityComment>(`/api/knowledge/${postId}/comments`, { method: "POST", body: JSON.stringify(comment) }), true);
+    if (result.ok && result.value) setData((current) => ({ ...current, knowledge: current.knowledge.map((post) => post.id === postId ? { ...post, comments: [...post.comments, result.value!] } : post) }));
+    return result.ok;
+  }, [perform]);
+
+  const removeKnowledgeComment = useCallback(async (postId: string, commentId: string) => {
+    const result = await perform("댓글을 삭제했습니다.", () => requestData<void>(`/api/knowledge/${postId}/comments/${commentId}`, { method: "DELETE" }));
+    if (result.ok) setData((current) => ({ ...current, knowledge: current.knowledge.map((post) => post.id === postId ? { ...post, comments: post.comments.filter((comment) => comment.id !== commentId) } : post) }));
     return result.ok;
   }, [perform]);
 
@@ -130,9 +146,9 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
   }, [perform]);
 
   const saveProject = useCallback(async (project: ProjectRoom) => {
-    const result = await perform("프로젝트를 저장했습니다.", () => requestData<ProjectRoom>(project.id ? `/api/projects/${project.id}` : "/api/projects", { method: project.id ? "PUT" : "POST", body: JSON.stringify(project) }), !project.id);
+    const result = await perform("프로젝트를 저장했습니다.", () => requestData<ProjectRoom>(project.id ? `/api/projects/${project.id}` : "/api/projects", { method: project.id ? "PUT" : "POST", body: JSON.stringify(project) }), true);
     if (result.ok && result.value) {
-      const saved = { ...result.value, updates: project.updates };
+      const saved = { ...result.value, updates: project.updates, comments: project.comments };
       setData((current) => ({ ...current, projects: upsert(current.projects, saved) }));
     }
     return result.ok;
@@ -162,6 +178,18 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
     return result.ok;
   }, [perform]);
 
+  const addProjectComment = useCallback(async (projectId: string, comment: CommunityComment) => {
+    const result = await perform("프로젝트 댓글을 등록했습니다.", () => requestData<CommunityComment>(`/api/projects/${projectId}/comments`, { method: "POST", body: JSON.stringify(comment) }), true);
+    if (result.ok && result.value) setData((current) => ({ ...current, projects: current.projects.map((project) => project.id === projectId ? { ...project, comments: [...project.comments, result.value!] } : project) }));
+    return result.ok;
+  }, [perform]);
+
+  const removeProjectComment = useCallback(async (projectId: string, commentId: string) => {
+    const result = await perform("프로젝트 댓글을 삭제했습니다.", () => requestData<void>(`/api/projects/${projectId}/comments/${commentId}`, { method: "DELETE" }));
+    if (result.ok) setData((current) => ({ ...current, projects: current.projects.map((project) => project.id === projectId ? { ...project, comments: project.comments.filter((comment) => comment.id !== commentId) } : project) }));
+    return result.ok;
+  }, [perform]);
+
   const saveGathering = useCallback(async (gathering: Gathering) => {
     const result = await perform("모임 일정을 저장했습니다.", () => requestData<Gathering>(gathering.id ? `/api/gatherings/${gathering.id}` : "/api/gatherings", { method: gathering.id ? "PUT" : "POST", body: JSON.stringify(gathering) }));
     if (result.ok && result.value) setData((current) => ({ ...current, gatherings: upsert(current.gatherings, result.value!) }));
@@ -175,11 +203,10 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
   }, [perform]);
 
   const saveMember = useCallback(async (member: Member) => {
-    const canEditOwnProfile = role === "member" && memberId === member.id;
-    const result = await perform("회원정보를 저장했습니다.", () => requestData<Member>(member.id ? `/api/members/${member.id}` : "/api/members", { method: member.id ? "PUT" : "POST", body: JSON.stringify(member) }), canEditOwnProfile);
+    const result = await perform("회원정보를 저장했습니다.", () => requestData<Member>(member.id ? `/api/members/${member.id}` : "/api/members", { method: member.id ? "PUT" : "POST", body: JSON.stringify(member) }));
     if (result.ok && result.value) setData((current) => ({ ...current, members: upsert(current.members, result.value!) }));
     return result.ok;
-  }, [memberId, perform, role]);
+  }, [perform]);
 
   const removeMember = useCallback(async (id: string) => {
     const result = await perform("회원정보를 삭제했습니다.", () => requestData<void>(`/api/members/${id}`, { method: "DELETE" }));
@@ -189,9 +216,9 @@ export function CommunityProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo(() => ({
     data, hydrated: !loading, loading, saving, feedback, clearFeedback: () => setFeedback(null), refreshData,
-    saveAbout, saveDashboard, saveMember, removeMember, saveNotice, removeNotice, saveKnowledge, removeKnowledge,
-    saveProject, removeProject, addProjectUpdate, saveProjectUpdate, removeProjectUpdate, saveGathering, removeGathering,
-  }), [data, loading, saving, feedback, refreshData, saveAbout, saveDashboard, saveMember, removeMember, saveNotice, removeNotice, saveKnowledge, removeKnowledge, saveProject, removeProject, addProjectUpdate, saveProjectUpdate, removeProjectUpdate, saveGathering, removeGathering]);
+    saveAbout, saveDashboard, saveMember, removeMember, saveNotice, removeNotice, saveKnowledge, removeKnowledge, addKnowledgeComment, removeKnowledgeComment,
+    saveProject, removeProject, addProjectUpdate, saveProjectUpdate, removeProjectUpdate, addProjectComment, removeProjectComment, saveGathering, removeGathering,
+  }), [data, loading, saving, feedback, refreshData, saveAbout, saveDashboard, saveMember, removeMember, saveNotice, removeNotice, saveKnowledge, removeKnowledge, addKnowledgeComment, removeKnowledgeComment, saveProject, removeProject, addProjectUpdate, saveProjectUpdate, removeProjectUpdate, addProjectComment, removeProjectComment, saveGathering, removeGathering]);
 
   return <CommunityContext.Provider value={value}>{children}</CommunityContext.Provider>;
 }
