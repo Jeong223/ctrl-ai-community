@@ -49,8 +49,8 @@ Copy-Item .env.example .env.local
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<Supabase anon key>
 SUPABASE_SERVICE_ROLE_KEY=<Supabase service role key>
-INVITE_CODE=0906
-ADMIN_ACCESS_CODE=9202
+INVITE_CODE=<회원 접속코드>
+ADMIN_ACCESS_CODE=<관리자 접속코드>
 AUTH_SECRET=<32자 이상의 충분히 긴 무작위 문자열>
 ```
 
@@ -77,7 +77,7 @@ npm run dev
 - 잘못된 코드: `401` 응답 및 메인 페이지 접근 차단
 - 역할 쿠키: `AUTH_SECRET`으로 서명한 HttpOnly 쿠키, 7일 유효
 
-`0906`과 `9202`는 현재 요청된 초기값입니다. 무료 Vercel URL은 인터넷에서 접근 가능하므로 실제 운영 전에는 더 긴 임의 값으로 변경하고 회원 외부에 공개하지 않는 편이 안전합니다. 이 코드 방식은 간단한 내부 접근 제어이며 강한 사용자별 인증은 아닙니다.
+실제 접속코드는 README나 Git 추적 파일에 기록하지 말고 `.env.local`과 배포 환경변수에만 보관하세요. 무료 Vercel URL은 인터넷에서 접근 가능하므로 충분히 긴 임의 값을 사용하고 회원 외부에 공개하지 않는 편이 안전합니다. 이 코드 방식은 간단한 내부 접근 제어이며 강한 사용자별 인증은 아닙니다.
 
 ## 4. 검증 명령
 
@@ -132,8 +132,8 @@ push 전에 다음 항목이 Git에 포함되지 않았는지 확인합니다.
 | `NEXT_PUBLIC_SUPABASE_URL` | 공개 가능 | Supabase Project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | 공개 가능 | Supabase anon key |
 | `SUPABASE_SERVICE_ROLE_KEY` | 서버 비밀 | Supabase service role key |
-| `INVITE_CODE` | 서버 비밀 | 초기 요청값 `0906` 또는 운영용 변경값 |
-| `ADMIN_ACCESS_CODE` | 서버 비밀 | 초기 요청값 `9202` 또는 운영용 변경값 |
+| `INVITE_CODE` | 서버 비밀 | `<회원 접속코드>` |
+| `ADMIN_ACCESS_CODE` | 서버 비밀 | `<관리자 접속코드>` |
 | `AUTH_SECRET` | 서버 비밀 | 32자 이상의 무작위 문자열 |
 
 Production에 필수로 적용하고, Preview에서도 테스트하려면 Preview에도 별도로 적용합니다. 환경변수를 바꾼 뒤에는 새 배포가 필요합니다.
