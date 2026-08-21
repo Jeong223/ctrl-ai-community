@@ -63,7 +63,11 @@ function InviteForm() {
       </form>
       <div className="invite-security">
         <LockKeyhole size={17} aria-hidden="true" />
-        <span>회원은 콘텐츠를 조회·작성하고 자신의 프로필을 수정할 수 있습니다. 관리자는 전체 편집이 가능하며 인증은 7일간 유지됩니다.</span>
+        <span>회원은 콘텐츠를 조회·작성하고 자신의 프로필을 수정할 수 있습니다.
+            <br></br>
+            관리자는 전체 편집이 가능하며 인증은 7일간 유지됩니다.
+        </span>
+        
       </div>
     </div>
   );
@@ -77,7 +81,7 @@ export default function InvitePage() {
         <div className="invite-message">
           <p className="eyebrow">Learn · Share · Build</p>
           <h1>AI를 함께 배우고,<br /><em>가능성을 현실로.</em></h1>
-          <p>Ctrl + AI는 다양한 직무의 동료가 AI 활용 경험을 나누고, 작지만 쓸모 있는 프로젝트를 함께 만드는 커뮤니티입니다.</p>
+          <p>Ctrl + AI는 다양한 직무의 동료가 AI 활용 경험을 나누고,<br></br> 작지만 쓸모 있는 프로젝트를 함께 만드는 커뮤니티입니다.</p>
         </div>
         <div className="invite-features" aria-label="주요 기능">
           <span><BookOpen size={13} /> 지식과 활용 사례 공유</span>
