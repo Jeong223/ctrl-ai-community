@@ -56,7 +56,7 @@ export default function GatheringsPage() {
           }) : <div className="card"><EmptyState icon={<CalendarDays size={22} />} title="표시할 모임이 없어요" description="다른 기간을 보거나 새 일정을 추가해 보세요." /></div>}
         </section>
         <aside className="card calendar-side">
-          <h2>{calendarYear}년 {calendarMonth + 1}월</h2><p>점이 표시된 날에 모임이 있어요.</p>
+          <h2>{calendarYear}년 {calendarMonth + 1}월</h2> 
           <div className="calendar-month" aria-label={`${calendarYear}년 ${calendarMonth + 1}월 달력`}>
             {["일", "월", "화", "수", "목", "금", "토"].map((day) => <span className="day-name" key={day}>{day}</span>)}
             {Array.from({ length: firstDay }, (_, index) => <span key={`blank-${index}`} />)}

@@ -1592,13 +1592,14 @@ a {
     padding: 20px;
 }
 .calendar-side h2 {
-    margin: 0;
-    font-size: 14px;
+    margin: 0 0 20px 0 ;
+    font-size: 16px;
+    font-weight: 500;
 }
 .calendar-side > p {
     margin: 4px 0 17px;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 12px;
 }
 .calendar-month {
     display: grid;
@@ -1613,13 +1614,13 @@ a {
     border-radius: 7px;
     color: var(--muted);
     font-family: var(--font-inter);
-    font-size: 9px;
+    font-size: 14px;
 }
 .calendar-month .day-name {
     aspect-ratio: auto;
     color: var(--subtle);
-    font-size: 8px;
-    font-weight: 800;
+    font-size: 14px;
+    font-weight: 500;
 }
 .calendar-month .has-event {
     background: var(--primary-soft);
@@ -1632,7 +1633,7 @@ a {
     gap: 7px;
     margin-top: 14px;
     color: var(--muted);
-    font-size: 9px;
+    font-size: 12px;
 }
 .calendar-legend i {
     width: 8px;
@@ -1653,7 +1654,8 @@ a {
 .summary-card small {
     display: block;
     color: var(--muted);
-    font-size: 9px;
+    font-size: 14px;
+    font-weight: 600;
 }
 .summary-card strong {
     display: block;
@@ -1750,18 +1752,19 @@ a {
 .member-card h2 {
     margin: 15px 0 2px;
     color: var(--navy);
-    font-size: 15px;
+    font-size: 16px;
+    
 }
 .member-role {
     color: var(--primary);
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 800;
 }
 .member-bio {
     min-height: 36px;
     margin: 11px 0 14px;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 12px;
 }
 .member-detail {
     display: grid;
@@ -1773,7 +1776,7 @@ a {
     display: grid;
     grid-template-columns: 55px 1fr;
     gap: 7px;
-    font-size: 9px;
+    font-size: 12px;
 }
 .member-detail dt {
     color: var(--subtle);
@@ -1845,12 +1848,13 @@ a {
 .value-card h2 {
     margin: 15px 0 6px;
     color: var(--navy);
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 500;
 }
 .value-card p {
     margin: 0;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 14px;
 }
 .direction-card {
     display: grid;
@@ -1866,7 +1870,7 @@ a {
 }
 .direction-copy p {
     color: var(--muted);
-    font-size: 11px;
+    font-size: 12px;
 }
 .direction-list {
     display: grid;
@@ -1898,12 +1902,13 @@ a {
 .direction-item strong {
     display: block;
     font-size: 11px;
+    font-weight: 600;
 }
 .direction-item small {
     display: block;
     margin-top: 3px;
     color: var(--muted);
-    font-size: 9px;
+    font-size: 13px;
 }
 .long-term {
     display: flex;
@@ -1930,11 +1935,13 @@ a {
     margin: 0;
     color: #1d3e82;
     font-size: 15px;
+    font-weight: 600;
 }
 .long-term p {
     margin: 5px 0 0;
     color: #5d7099;
-    font-size: 11px;
+    font-size: 12px;
+    font-weight: 500;
 }
 [data-theme="dark"] .long-term {
     border-color: #2b3d64;
@@ -1987,6 +1994,7 @@ a {
     margin: 4px 0 0;
     color: var(--muted);
     font-size: 10px;
+    font-weight: 500;
 }
 .modal-body {
     max-height: calc(100vh - 150px);
